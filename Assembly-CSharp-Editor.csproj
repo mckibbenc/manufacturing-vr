@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{7F217093-D151-A7EA-62FA-7B4383AC491F}</ProjectGuid>
+    <ProjectGuid>{A6525BFC-EAE1-5935-1A7C-9A2D1DDC3736}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -131,7 +131,7 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="websocket-sharp">
- <HintPath>/Users/al-bot/Documents/Unity/Manufacturing VR/Assets/Assets/Plugins/websocket-sharp.dll</HintPath>
+ <HintPath>/Users/al-bot/Documents/Unity/manufacturing-vr/Assets/Assets/Plugins/websocket-sharp.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>/Users/al-bot/Library/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>
@@ -157,7 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{3022A4FD-D3D0-C509-628B-D073ED875F31}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+      <Project>{CA3A3372-1396-93C2-A4D9-A3E603D0B53F}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
