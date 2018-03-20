@@ -24,8 +24,8 @@ public class ZoneClass
     {
         for (int i = 0; i < this.points.Length; i++)
         {
-            double localY = CoordinateConversions.ConvertLatitudeToLocalY(this.points[i].y, this.points[i].x, orientationOffset, metersPerDegreeLatitude, metersPerDegreeLongitude, latitudeZero, longitudeZero);
-            double localX = CoordinateConversions.ConvertLongitudeToLocalX(this.points[i].x, localY, orientationOffset, metersPerDegreeLongitude, longitudeZero);
+            double localY = CoordinateConverter.ConvertLatitudeToLocalY(this.points[i].y, this.points[i].x, orientationOffset, metersPerDegreeLatitude, metersPerDegreeLongitude, latitudeZero, longitudeZero);
+            double localX = CoordinateConverter.ConvertLongitudeToLocalX(this.points[i].x, localY, orientationOffset, metersPerDegreeLongitude, longitudeZero);
             this.points[i].x = localX;
             this.points[i].y = localY;
         }

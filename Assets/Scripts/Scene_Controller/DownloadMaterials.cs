@@ -9,21 +9,22 @@ public class DownloadMaterials : MonoBehaviour {
 
     private MaterialClass[] materials;
 
-    // Hendersonville conversion factors
-    private const double orientationOffset = -51.4; // orientation of the coordinate plane in relation to the Earth
-    private const double metersPerDegreeLatitude = 110945.6224; // Total meters between each degree latitude. For best accuracy, this constant is dependent on altitude and position on earth
-    private const double metersPerDegreeLongitude = 90982.115536; // Total meters between each degree longitude. For best accuracy, this constant is dependent on altitude and position on earth
-    private const double latitudeZero = 35.274601; // The latitude coordinate that corresponds to the origin of the coordinate plane
-    private const double longitudeZero = -82.412102; // The longitude coordinate that corresponds to the origin on the coordinate plane
+	// URL
+	private const string baseUrl = "https://mms-material-service-stg.run.aws-usw02-pr.ice.predix.io";
+	private const string apiVersion = "/api/v2";
+
+
+	private long previousTime;
 
     // Use this for initialization
     void Start () {
         StartCoroutine(GetMaterials());
+		//InvokeRepeating ("InvokeGetLatestChanges", 6.0f, 6.0f);
 	}
 
     IEnumerator GetMaterials()
     {
-        UnityWebRequest materialService = UnityWebRequest.Get("https://mms-material-service-stg.run.aws-usw02-pr.ice.predix.io/api/v2/clients/GELighting/sites/101/materials/views/lastlocation?status=active");
+		UnityWebRequest materialService = UnityWebRequest.Get(baseUrl + apiVersion + "/clients/GELighting/sites/101/materials/views/lastlocation?status=active");
         materialService.SetRequestHeader("Content-Type", "application/json");
 		materialService.SetRequestHeader("Authorization", Authorization.getToken());
         yield return materialService.SendWebRequest();
@@ -37,10 +38,36 @@ public class DownloadMaterials : MonoBehaviour {
             materials = JsonHelper.FromJson<MaterialClass>(JsonHelper.FixJson(materialService.downloadHandler.text));
             foreach (MaterialClass material in materials)
             {
-                double localZ = CoordinateConversions.ConvertLatitudeToLocalY(material.y, material.x, orientationOffset, metersPerDegreeLatitude, metersPerDegreeLongitude, latitudeZero, longitudeZero);
-                double localX = CoordinateConversions.ConvertLongitudeToLocalX(material.x, localZ, orientationOffset, metersPerDegreeLongitude, longitudeZero);
+                double localZ = CoordinateConverter.ConvertLatitudeToLocalY(material.y, material.x);
+                double localX = CoordinateConverter.ConvertLongitudeToLocalX(material.x, localZ);
                 Instantiate(palletAndBoxes, new Vector3((float)localX, (float)0.05420906, (float)localZ), Quaternion.Euler(-90, 0, 0));
             }
         }
     }
+
+	void InvokeGetLatestChanges() 
+	{
+		StartCoroutine (getLatestChanges ());
+	}
+
+	IEnumerator GetLatestChanges(long previousTime)
+	{
+		UnityWebRequest materialService = UnityWebRequest.Get (baseUrl + apiVersion + "/clients/GELighting/sites/101/materials/views/lastlocation?status=active&modifiedStart>" + previousTime);
+		materialService.SetRequestHeader ("Content-Type", "application/json");
+		materialService.SetRequestHeader ("Authorization", Authorization.getToken ());
+		previousTime = (DateTime.UtcNow - new DateTime (1970, 1, 1)).TotalMilliseconds;
+		yield return materialService.SendWebRequest();
+
+		if (materialService.isNetworkError || materialService.isHttpError) {
+			Debug.Log (materialService.error);
+		} else {
+			// 
+			materials = JsonHelper.FromJson<MaterialClass> (JsonHelper.FixJson (materialService.downloadHandler.text));
+			foreach (MaterialClass material in materials) {
+				double localZ = CoordinateConverter.ConvertLatitudeToLocalY (material.y, material.x);
+				double localX = CoordinateConverter.ConvertLongitudeToLocalX (material.x, localZ);
+				Instantiate (palletAndBoxes, new Vector3 ((float)localX, (float)0.05420906, (float)localZ), Quaternion.Euler (-90, 0, 0));
+			}
+		}
+	}
 }

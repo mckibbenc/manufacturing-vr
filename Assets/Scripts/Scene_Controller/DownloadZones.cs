@@ -18,13 +18,9 @@ public class DownloadZones : MonoBehaviour
 
     private ZoneClass[] zones;
 
-    // Hendersonville conversion factors
-    private const double orientationOffset = -51.4; // orientation of the coordinate plane in relation to the Earth
-    private const double metersPerDegreeLatitude = 110945.6224; // Total meters between each degree latitude. For best accuracy, this constant is dependent on altitude and position on earth
-    private const double metersPerDegreeLongitude = 90982.115536; // Total meters between each degree longitude. For best accuracy, this constant is dependent on altitude and position on earth
-    private const double latitudeZero = 35.274601; // The latitude coordinate that corresponds to the origin of the coordinate plane
-    private const double longitudeZero = -82.412102; // The longitude coordinate that corresponds to the origin on the coordinate plane
-
+	// URL
+	private const string baseUrl = "https://mms-site-service-stg.run.aws-usw02-pr.ice.predix.io";
+	private const string apiVersion = "/api/v2";
 
     // Use this for initialization
     void Start()
@@ -41,7 +37,7 @@ public class DownloadZones : MonoBehaviour
 
     IEnumerator GetZones()
     {
-        UnityWebRequest siteService = UnityWebRequest.Get("https://mms-site-service-stg.run.aws-usw02-pr.ice.predix.io/api/v2/clients/GELighting/sites/101/zones");
+		UnityWebRequest siteService = UnityWebRequest.Get(baseUrl + apiVersion + "/clients/GELighting/sites/101/zones?type=-fixture,-consume,-assembly");
         siteService.SetRequestHeader("Content-Type", "application/json");
 		siteService.SetRequestHeader("Authorization", Authorization.getToken());
 
@@ -58,7 +54,7 @@ public class DownloadZones : MonoBehaviour
             {
                 if (zone.name == "main")
                 {
-                    zone.transformPointsToLocal(orientationOffset, metersPerDegreeLatitude, metersPerDegreeLongitude, latitudeZero, longitudeZero);
+					zone.transformPointsToLocal(CoordinateConverter.ORIENTATION_OFFSET, CoordinateConverter.METERS_PER_DEGREE_LATITUDE, CoordinateConverter.METERS_PER_DEGREE_LONGITUDE, CoordinateConverter.LATITUDE_ZERO, CoordinateConverter.LONGITUDE_ZERO);
 
                     Rect boundaries = new Rect(0, 0, (float)zone.points[1].x, (float)zone.points[2].y);
                     Vector3 location = new Vector3(boundaries.width / 2, 0, boundaries.height / 2);
@@ -92,7 +88,7 @@ public class DownloadZones : MonoBehaviour
 
     IEnumerator GetFixtures()
     {
-        UnityWebRequest siteServiceDev = UnityWebRequest.Get("https://mms-site-service-dev.run.aws-usw02-pr.ice.predix.io/api/v2/clients/GELighting/sites/101/zones");
+		UnityWebRequest siteServiceDev = UnityWebRequest.Get("https://mms-site-service-stg.run.aws-usw02-pr.ice.predix.io" + apiVersion + "/clients/GELighting/sites/101/zones?type=fixture");
         siteServiceDev.SetRequestHeader("Content-Type", "application/json");
 		siteServiceDev.SetRequestHeader("Authorization", Authorization.getToken());
 
@@ -108,19 +104,15 @@ public class DownloadZones : MonoBehaviour
             GameObject root = new GameObject();
             foreach (ZoneClass zone in zones)
             {
-                if (zone.type == "fixture")
-                {
-                    zone.transformPointsToLocal(orientationOffset, metersPerDegreeLatitude, metersPerDegreeLongitude, latitudeZero, longitudeZero);
+				zone.transformPointsToLocal(CoordinateConverter.ORIENTATION_OFFSET, CoordinateConverter.METERS_PER_DEGREE_LATITUDE, CoordinateConverter.METERS_PER_DEGREE_LONGITUDE, CoordinateConverter.LATITUDE_ZERO, CoordinateConverter.LONGITUDE_ZERO);
 
-                    
-                    float fixtureWidth = fixturePrefab.transform.localScale.x; // meters
-                    float fixtureHeight = fixturePrefab.transform.localScale.z; // meters
+                float fixtureWidth = fixturePrefab.transform.localScale.x; // meters
+                float fixtureHeight = fixturePrefab.transform.localScale.z; // meters
 
-                    Vector3 location = new Vector3((float)(zone.points[0].x + fixtureWidth / 2), (float)zone.height, (float)(zone.points[0].y + fixtureHeight / 2));
-                    GameObject instance = (GameObject)Instantiate(fixturePrefab, location, Quaternion.identity);
-                    instance.isStatic = true;
-                    instance.transform.parent = root.transform;
-                }
+                Vector3 location = new Vector3((float)(zone.points[0].x + fixtureWidth / 2), (float)zone.height, (float)(zone.points[0].y + fixtureHeight / 2));
+                GameObject instance = (GameObject)Instantiate(fixturePrefab, location, Quaternion.identity);
+                instance.isStatic = true;
+                instance.transform.parent = root.transform;
             }
             StaticBatchingUtility.Combine(root);
         }
