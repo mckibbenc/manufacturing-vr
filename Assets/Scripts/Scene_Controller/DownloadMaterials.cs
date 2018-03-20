@@ -47,15 +47,15 @@ public class DownloadMaterials : MonoBehaviour {
 
 	void InvokeGetLatestChanges() 
 	{
-		StartCoroutine (getLatestChanges ());
+		StartCoroutine (GetLatestChanges ());
 	}
 
-	IEnumerator GetLatestChanges(long previousTime)
+	IEnumerator GetLatestChanges()
 	{
 		UnityWebRequest materialService = UnityWebRequest.Get (baseUrl + apiVersion + "/clients/GELighting/sites/101/materials/views/lastlocation?status=active&modifiedStart>" + previousTime);
 		materialService.SetRequestHeader ("Content-Type", "application/json");
 		materialService.SetRequestHeader ("Authorization", Authorization.getToken ());
-		previousTime = (DateTime.UtcNow - new DateTime (1970, 1, 1)).TotalMilliseconds;
+		previousTime = (long) (DateTime.UtcNow - new DateTime (1970, 1, 1)).TotalMilliseconds;
 		yield return materialService.SendWebRequest();
 
 		if (materialService.isNetworkError || materialService.isHttpError) {

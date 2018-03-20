@@ -54,7 +54,7 @@ public class DownloadZones : MonoBehaviour
             {
                 if (zone.name == "main")
                 {
-					zone.transformPointsToLocal(CoordinateConverter.ORIENTATION_OFFSET, CoordinateConverter.METERS_PER_DEGREE_LATITUDE, CoordinateConverter.METERS_PER_DEGREE_LONGITUDE, CoordinateConverter.LATITUDE_ZERO, CoordinateConverter.LONGITUDE_ZERO);
+					zone.transformPointsToLocal();
 
                     Rect boundaries = new Rect(0, 0, (float)zone.points[1].x, (float)zone.points[2].y);
                     Vector3 location = new Vector3(boundaries.width / 2, 0, boundaries.height / 2);
@@ -104,7 +104,7 @@ public class DownloadZones : MonoBehaviour
             GameObject root = new GameObject();
             foreach (ZoneClass zone in zones)
             {
-				zone.transformPointsToLocal(CoordinateConverter.ORIENTATION_OFFSET, CoordinateConverter.METERS_PER_DEGREE_LATITUDE, CoordinateConverter.METERS_PER_DEGREE_LONGITUDE, CoordinateConverter.LATITUDE_ZERO, CoordinateConverter.LONGITUDE_ZERO);
+				zone.transformPointsToLocal();
 
                 float fixtureWidth = fixturePrefab.transform.localScale.x; // meters
                 float fixtureHeight = fixturePrefab.transform.localScale.z; // meters

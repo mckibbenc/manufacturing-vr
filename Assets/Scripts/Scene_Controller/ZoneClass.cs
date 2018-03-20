@@ -20,12 +20,12 @@ public class ZoneClass
     public string type;
     public PointsClass[] points;
 
-    public void transformPointsToLocal(double orientationOffset, double metersPerDegreeLatitude, double metersPerDegreeLongitude, double latitudeZero, double longitudeZero)
+    public void transformPointsToLocal()
     {
         for (int i = 0; i < this.points.Length; i++)
         {
-            double localY = CoordinateConverter.ConvertLatitudeToLocalY(this.points[i].y, this.points[i].x, orientationOffset, metersPerDegreeLatitude, metersPerDegreeLongitude, latitudeZero, longitudeZero);
-            double localX = CoordinateConverter.ConvertLongitudeToLocalX(this.points[i].x, localY, orientationOffset, metersPerDegreeLongitude, longitudeZero);
+            double localY = CoordinateConverter.ConvertLatitudeToLocalY(this.points[i].y, this.points[i].x);
+            double localX = CoordinateConverter.ConvertLongitudeToLocalX(this.points[i].x, localY);
             this.points[i].x = localX;
             this.points[i].y = localY;
         }
