@@ -299,6 +299,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4274362447041290}
   - component: {fileID: 65226671232763502}
+  - component: {fileID: 114389456120643592}
+  - component: {fileID: 114061354548027898}
   m_Layer: 0
   m_Name: forklift_truck
   m_TagString: Untagged
@@ -356,7 +358,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1945127716331252}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.625534, y: 0.061778575, z: -12.757309}
+  m_LocalPosition: {x: -26.210724, y: 0.061778575, z: -12.747223}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4274362447041290}
@@ -933,6 +935,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.7810302, y: 0.037019253, z: 1.136157}
   m_Center: {x: -0.0026693344, y: 0.036987662, z: 1.8662252}
+--- !u!114 &114061354548027898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1991097956782256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b846f06372055a94fac4cc07fdd2a959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableWhenIdle: 1
+  touchHighlightColor: {r: 0, g: 0, b: 0, a: 0}
+  allowedTouchControllers: 0
+  ignoredColliders: []
+  isGrabbable: 0
+  holdButtonToGrab: 0
+  stayGrabbedOnTeleport: 1
+  validDrop: 1
+  grabOverrideButton: 0
+  allowedGrabControllers: 0
+  grabAttachMechanicScript: {fileID: 0}
+  secondaryGrabActionScript: {fileID: 0}
+  isUsable: 1
+  holdButtonToUse: 1
+  useOnlyIfGrabbed: 0
+  pointerActivatesUseAction: 1
+  useOverrideButton: 0
+  allowedUseControllers: 0
+  usingState: 0
 --- !u!114 &114270935190487330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -951,6 +983,18 @@ MonoBehaviour:
   minY: {x: 0, y: -0.02, z: 0}
   maxYmast: {x: 0, y: 1.8, z: 0}
   minYmast: {x: 0, y: 0, z: 0}
+--- !u!114 &114389456120643592
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1991097956782256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e6b329f4b88404cb28434fbf834eb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carrierId: Test
 --- !u!146 &146021503790710790
 WheelCollider:
   m_ObjectHideFlags: 1
