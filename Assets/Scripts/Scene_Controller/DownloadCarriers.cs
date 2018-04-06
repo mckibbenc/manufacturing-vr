@@ -42,8 +42,7 @@ public class DownloadCarriers : MonoBehaviour
                 double localZ = CoordinateConversions.ConvertLatitudeToLocalY(carrier.y, carrier.x, orientationOffset, metersPerDegreeLatitude, metersPerDegreeLongitude, latitudeZero, longitudeZero);
                 double localX = CoordinateConversions.ConvertLongitudeToLocalX(carrier.x, localZ, orientationOffset, metersPerDegreeLongitude, longitudeZero);
                 GameObject carrierInstance = Instantiate(forklift, new Vector3((float)localX, (float)0.06177858, (float)localZ), Quaternion.Euler(0, (float)(carrier.orientation + 90 + 40), 0));
-                carrierInstance.transform.Find("forklift_truck").GetComponent<CarrierDetails>().carrierId = carrier.carrierId;
-                Debug.Log("Loading carrier: " + carrierInstance.transform.Find("forklift_truck").GetComponent<CarrierDetails>().carrierId);
+                carrierInstance.transform.Find("forklift_truck").GetComponent<CarrierDetails>().CarrierId = carrier.carrierId;
             }
         }
     }

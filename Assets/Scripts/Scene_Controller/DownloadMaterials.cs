@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class DownloadMaterials : MonoBehaviour {
-    public Transform palletAndBoxes;
+    public GameObject palletAndBoxes;
 
     private MaterialClass[] materials;
 
@@ -39,7 +39,8 @@ public class DownloadMaterials : MonoBehaviour {
             {
                 double localZ = CoordinateConversions.ConvertLatitudeToLocalY(material.y, material.x, orientationOffset, metersPerDegreeLatitude, metersPerDegreeLongitude, latitudeZero, longitudeZero);
                 double localX = CoordinateConversions.ConvertLongitudeToLocalX(material.x, localZ, orientationOffset, metersPerDegreeLongitude, longitudeZero);
-                Instantiate(palletAndBoxes, new Vector3((float)localX, (float)0.05420906, (float)localZ), Quaternion.Euler(-90, 0, 0));
+                GameObject materialInstance = Instantiate(palletAndBoxes, new Vector3((float)localX, (float)0.05420906, (float)localZ), Quaternion.Euler(-90, 0, 0));
+                materialInstance.GetComponent<MaterialDetails>().MaterialId = material.materialId;
             }
         }
     }
