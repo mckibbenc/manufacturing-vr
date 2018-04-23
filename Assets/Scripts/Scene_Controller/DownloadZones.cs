@@ -92,7 +92,7 @@ public class DownloadZones : MonoBehaviour
 
     IEnumerator GetFixtures()
     {
-        UnityWebRequest siteServiceDev = UnityWebRequest.Get("https://mms-site-service-dev.run.aws-usw02-pr.ice.predix.io/api/v2/clients/GELighting/sites/101/zones");
+        UnityWebRequest siteServiceDev = UnityWebRequest.Get("https://mms-site-service-stg.run.aws-usw02-pr.ice.predix.io/api/v2/clients/GELighting/sites/101/zones");
         siteServiceDev.SetRequestHeader("Content-Type", "application/json");
 		siteServiceDev.SetRequestHeader("Authorization", Authorization.getToken());
 

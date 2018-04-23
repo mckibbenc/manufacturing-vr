@@ -8,9 +8,9 @@ namespace VRTK
 #endif
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using UnityEngine.VR;
+    using System.Linq;
 
     /// <summary>
     /// The Shared Methods script is a collection of reusable static methods that are used across a range of different scripts.
